@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A0C849C4-C39C-4BB6-B518-93340E8A54DD}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Softnet.Tracker</RootNamespace>
+    <AssemblyName>Softnet.Tracker</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Asn1Codec">
+      <HintPath>.\Asn1Codec.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>.\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Softnet.ServerKit">
+      <HintPath>.\Softnet.ServerKit.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppLog.cs" />
+    <Compile Include="ClientModel\AuthData.cs" />
+    <Compile Include="ClientModel\IChannel.cs" />
+    <Compile Include="ClientModel\ClearChannel.cs" />
+    <Compile Include="ClientModel\Client.cs" />
+    <Compile Include="ClientModel\ClientInstaller.cs" />
+    <Compile Include="ClientModel\IEventClientController.cs" />
+    <Compile Include="ClientModel\RPCController.cs" />
+    <Compile Include="ClientModel\SFEventController.cs" />
+    <Compile Include="ClientModel\SLEventController.cs" />
+    <Compile Include="ClientModel\TCPController.cs" />
+    <Compile Include="ClientModel\UDPController.cs" />
+    <Compile Include="Core\AppClock.cs" />
+    <Compile Include="Core\ClearChannelAcceptor.cs" />
+    <Compile Include="Core\Constants.cs" />
+    <Compile Include="Core\ErrorCodes.cs" />
+    <Compile Include="Core\EventCleaner.cs" />
+    <Compile Include="Core\TListenerV4.cs" />
+    <Compile Include="Core\TListenerV6.cs" />
+    <Compile Include="Core\NetworkResources.cs" />
+    <Compile Include="Core\PEventRemover.cs" />
+    <Compile Include="Core\ProxyParams.cs" />
+    <Compile Include="Core\QEventRemover.cs" />
+    <Compile Include="Core\SoftnetException.cs" />
+    <Compile Include="Core\SoftnetRegistry.cs" />
+    <Compile Include="Core\SoftnetTracker.cs" />
+    <Compile Include="Balancer\BListenerV4.cs" />
+    <Compile Include="Balancer\BListenerV6.cs" />
+    <Compile Include="Balancer\RequestHandler.cs" />
+    <Compile Include="BalancerConfig.cs" />
+    <Compile Include="Management\IManagement.cs" />
+    <Compile Include="Management\MgtAgent.cs" />
+    <Compile Include="ProjectInstaller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProjectInstaller.Designer.cs">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ServerRoot.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ServerRoot.Designer.cs">
+      <DependentUpon>ServerRoot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceModel\AuthData.cs" />
+    <Compile Include="ServiceModel\IChannel.cs" />
+    <Compile Include="ServiceModel\ClearChannel.cs" />
+    <Compile Include="ServiceModel\EventServiceController.cs" />
+    <Compile Include="ServiceModel\RPCController.cs" />
+    <Compile Include="ServiceModel\Service.cs" />
+    <Compile Include="ServiceModel\ServiceInstaller.cs" />
+    <Compile Include="ServiceModel\SSHashBuilder.cs" />
+    <Compile Include="ServiceModel\SSXmlEncoder.cs" />
+    <Compile Include="ServiceModel\TCPController.cs" />
+    <Compile Include="ServiceModel\UDPController.cs" />
+    <Compile Include="SiteModel\EventController\BiLinked.cs" />
+    <Compile Include="SiteModel\EventController\BiLinkedList.cs" />
+    <Compile Include="SiteModel\EventController\EventData.cs" />
+    <Compile Include="SiteModel\EventController\EventIData.cs" />
+    <Compile Include="SiteModel\EventController\MSEventController.cs" />
+    <Compile Include="SiteModel\EventController\PEventInstance.cs" />
+    <Compile Include="SiteModel\EventController\PSubscription.cs" />
+    <Compile Include="SiteModel\EventController\QEventInstance.cs" />
+    <Compile Include="SiteModel\EventController\QSubscription.cs" />
+    <Compile Include="SiteModel\EventController\REventInstance.cs" />
+    <Compile Include="SiteModel\EventController\RSubscription.cs" />
+    <Compile Include="SiteModel\EventController\SCSubscriptionData.cs" />
+    <Compile Include="SiteModel\EventController\SSEventController.cs" />
+    <Compile Include="SiteModel\EventController\SubscriptionData.cs" />
+    <Compile Include="SiteModel\IEventController.cs" />
+    <Compile Include="SiteModel\IMembership.cs" />
+    <Compile Include="SiteModel\IServiceGroup.cs" />
+    <Compile Include="SiteModel\Membership\MRole.cs" />
+    <Compile Include="SiteModel\Membership\MUser.cs" />
+    <Compile Include="SiteModel\Membership\MUserData.cs" />
+    <Compile Include="SiteModel\Membership\MUserList.cs" />
+    <Compile Include="SiteModel\Membership\MUserRole.cs" />
+    <Compile Include="SiteModel\Membership\RBMembership.cs" />
+    <Compile Include="SiteModel\Membership\UBMembership.cs" />
+    <Compile Include="SiteModel\ServiceGroup\MultiServiceGroup.cs" />
+    <Compile Include="SiteModel\ServiceGroup\SGItem.cs" />
+    <Compile Include="SiteModel\ServiceGroup\SGItemData.cs" />
+    <Compile Include="SiteModel\ServiceGroup\SingleServiceGroup.cs" />
+    <Compile Include="SiteModel\Site.cs" />
+    <Compile Include="SiteModel\SiteIData.cs" />
+    <Compile Include="SiteModel\SiteParams.cs" />
+    <Compile Include="SiteModel\SiteStructure\PEvent.cs" />
+    <Compile Include="SiteModel\SiteStructure\QEvent.cs" />
+    <Compile Include="SiteModel\SiteStructure\REvent.cs" />
+    <Compile Include="SiteModel\SiteStructure\SiteStructure.cs" />
+    <Compile Include="SiteModel\SiteStructure\SSDataset.cs" />
+    <Compile Include="SiteModel\SiteStructure\SSXmlDecoder.cs" />
+    <Compile Include="SiteModel\SSRawData.cs" />
+    <Compile Include="SiteModel\Sync\ClientSyncController.cs" />
+    <Compile Include="SiteModel\Sync\ClientSyncData.cs" />
+    <Compile Include="SiteModel\Sync\ClientSyncToken.cs" />
+    <Compile Include="SiteModel\Sync\ServiceSyncController.cs" />
+    <Compile Include="SiteModel\Sync\ServiceSyncData.cs" />
+    <Compile Include="SiteModel\Sync\ServiceSyncToken.cs" />
+    <Compile Include="SiteModel\UserAuthority.cs" />
+    <Compile Include="TrackerConfig.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ProjectInstaller.resx">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
