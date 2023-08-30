@@ -43,7 +43,7 @@ namespace Softnet.Tracker.ServiceModel
         void ProcessMessage_ReplacingEvent(byte[] message)
         {
             var eventIData = new EventIData();
-            SequenceDecoder asnSequence = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnSequence = ASNDecoder.Sequence(message, 2);
             eventIData.Name = asnSequence.IA5String(1, 256);
             int eventIndex = asnSequence.Int32();
             byte[] instanceUid = asnSequence.OctetString(16);
@@ -73,7 +73,7 @@ namespace Softnet.Tracker.ServiceModel
         void ProcessMessage_ReplacingNullEvent(byte[] message)
         {
             var eventIData = new EventIData();
-            SequenceDecoder asnSequence = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnSequence = ASNDecoder.Sequence(message, 2);
             eventIData.Name = asnSequence.IA5String(1, 256);
             int eventIndex = asnSequence.Int32();
             byte[] instanceUid = asnSequence.OctetString(16);
@@ -101,7 +101,7 @@ namespace Softnet.Tracker.ServiceModel
         void ProcessMessage_QueueingEvent(byte[] message)
         {
             var eventIData = new SiteModel.EventIData();
-            SequenceDecoder asnSequence = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnSequence = ASNDecoder.Sequence(message, 2);
             eventIData.Name = asnSequence.IA5String(1, 256);
             int eventIndex = asnSequence.Int32();
             byte[] instanceUid = asnSequence.OctetString(16);
@@ -130,7 +130,7 @@ namespace Softnet.Tracker.ServiceModel
         void ProcessMessage_PrivateEvent(byte[] message)
         {
             var eventIData = new SiteModel.EventIData();
-            SequenceDecoder asnSequence = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnSequence = ASNDecoder.Sequence(message, 2);
             eventIData.Name = asnSequence.IA5String(1, 256);
             int eventIndex = asnSequence.Int32();
             byte[] instanceUid = asnSequence.OctetString(16);
@@ -159,7 +159,7 @@ namespace Softnet.Tracker.ServiceModel
 
         void ProcessMessage_NewStorageUid(byte[] message)
         {            
-            SequenceDecoder asnSequence = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnSequence = ASNDecoder.Sequence(message, 2);
             Guid storageUid = ByteConverter.ToGuid(asnSequence.OctetString(16));
             asnSequence.End();
 

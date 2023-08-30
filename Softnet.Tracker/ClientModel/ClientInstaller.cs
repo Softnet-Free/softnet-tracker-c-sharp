@@ -178,7 +178,7 @@ namespace Softnet.Tracker.ClientModel
             if (m_TimeoutControlTask.Cancel() == false)
                 return;
 
-            SequenceDecoder asnRootSequence = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnRootSequence = ASNDecoder.Sequence(message, 2);
             string receivedServiceType = asnRootSequence.IA5String(1, 256);
             string receivedContractAuthor = asnRootSequence.IA5String(1, 256);
             string receivedClientDescription = "";

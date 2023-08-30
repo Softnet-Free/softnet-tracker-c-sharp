@@ -151,7 +151,7 @@ namespace Softnet.Tracker.ServiceModel
 
         void ProcessMessage_State(byte[] message)
         {
-            SequenceDecoder asnRootDecoder = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnRootDecoder = ASNDecoder.Sequence(message, 2);
 
             SequenceDecoder asnSiteProfile = asnRootDecoder.Sequence();
             string receivedServiceType = asnSiteProfile.IA5String(1, 256);
@@ -208,7 +208,7 @@ namespace Softnet.Tracker.ServiceModel
 
             SSDataset ssDataset = new SSDataset();
 
-            SequenceDecoder asnData = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnData = ASNDecoder.Sequence(message, 2);
             SequenceDecoder asnSiteStructure = asnData.Sequence();            
             ssDataset.serviceType = asnSiteStructure.IA5String(1, 256);
             ssDataset.contractAuthor = asnSiteStructure.IA5String(1, 256);

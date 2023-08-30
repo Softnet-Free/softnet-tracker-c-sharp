@@ -57,7 +57,7 @@ namespace Softnet.Tracker.ClientModel
 
         void ProcessMessage_Request(byte[] message)
         {
-            SequenceDecoder asnSequence = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnSequence = ASNDecoder.Sequence(message, 2);
             byte[] requestUid = asnSequence.OctetString(16);
             long serviceId = asnSequence.Int64();
             int virtualPort = asnSequence.Int32();
@@ -76,7 +76,7 @@ namespace Softnet.Tracker.ClientModel
 
         void ProcessMessage_AuthKey(byte[] message)
         {
-            SequenceDecoder asnSequence = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnSequence = ASNDecoder.Sequence(message, 2);
             byte[] requestUid = asnSequence.OctetString(16);
             int serverId = asnSequence.Int32();
             byte[] authKey = asnSequence.OctetString(20);

@@ -305,7 +305,7 @@ namespace Softnet.Tracker.ClientModel
         {
             List<SCSubscriptionData> subscriptions = new List<SCSubscriptionData>();
 
-            SequenceDecoder asnRoot = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnRoot = ASNDecoder.Sequence(message, 2);
             while (asnRoot.HasNext())
             {
                 SCSubscriptionData subsData = new SCSubscriptionData();
@@ -369,7 +369,7 @@ namespace Softnet.Tracker.ClientModel
 
         void ProcessMessage_ReplacingEventAck(byte[] message)
         {
-            SequenceDecoder asnSequence = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnSequence = ASNDecoder.Sequence(message, 2);
             long eventId = asnSequence.Int64();
             byte[] transactionUid = asnSequence.OctetString(16);
             asnSequence.End();
@@ -408,7 +408,7 @@ namespace Softnet.Tracker.ClientModel
 
         void ProcessMessage_QueueingEventAck(byte[] message)
         {
-            SequenceDecoder asnSequence = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnSequence = ASNDecoder.Sequence(message, 2);
             long eventId = asnSequence.Int64();
             byte[] transactionUid = asnSequence.OctetString(16);
             asnSequence.End();
@@ -447,7 +447,7 @@ namespace Softnet.Tracker.ClientModel
 
         void ProcessMessage_EventRejected(byte[] message)
         {
-            SequenceDecoder asnSequence = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnSequence = ASNDecoder.Sequence(message, 2);
             int eventKind = asnSequence.Int32();
             long eventId = asnSequence.Int64();
             byte[] transactionUid = asnSequence.OctetString(16);
@@ -497,7 +497,7 @@ namespace Softnet.Tracker.ClientModel
         {
             SCSubscriptionData subsData = new SCSubscriptionData();
 
-            SequenceDecoder asnSequence = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnSequence = ASNDecoder.Sequence(message, 2);
             subsData.EventKind = asnSequence.Int32();
             subsData.EventName = asnSequence.IA5String(1, 256);
             if (asnSequence.Exists(1))
@@ -551,7 +551,7 @@ namespace Softnet.Tracker.ClientModel
 
         void ProcessMessage_RemoveSubscription(byte[] message)
         {
-            SequenceDecoder asnSequence = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnSequence = ASNDecoder.Sequence(message, 2);
             int eventKind = asnSequence.Int32();
             string eventName = asnSequence.IA5String(1, 256);
             asnSequence.End();

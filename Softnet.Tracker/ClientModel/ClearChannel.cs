@@ -241,7 +241,7 @@ namespace Softnet.Tracker.ClientModel
 
         void ProcessMessage_Open(byte[] message)
         {
-            var sequence = ASNDecoder.Create(message, 2);
+            var sequence = ASNDecoder.Sequence(message, 2);
             int clientCategory = sequence.Int32(1, 4);
             string clientKey = sequence.PrintableString();
             sequence.End();
@@ -296,7 +296,7 @@ namespace Softnet.Tracker.ClientModel
 
         void ProcessMessage_Restore(byte[] message)
         {
-            var sequence = ASNDecoder.Create(message, 2);
+            var sequence = ASNDecoder.Sequence(message, 2);
             int clientCategory = sequence.Int32(1, 4);
             string clientKey = sequence.PrintableString();
             byte[] channelId = sequence.OctetString(16);
@@ -327,7 +327,7 @@ namespace Softnet.Tracker.ClientModel
 
         void ProcessMessage_HashAndKey2(byte[] message)
         {
-            var sequence = ASNDecoder.Create(message, 2);
+            var sequence = ASNDecoder.Sequence(message, 2);
             byte[] receivedPasswordHash = sequence.OctetString(20);
             byte[] securityKey2 = sequence.OctetString(20);
             sequence.End();

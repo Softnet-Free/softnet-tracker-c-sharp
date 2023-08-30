@@ -232,7 +232,7 @@ namespace Softnet.Tracker.ServiceModel
 
         void ProcessMessage_Restore(byte[] message)
         {
-            var sequence = ASNDecoder.Create(message, 2);
+            var sequence = ASNDecoder.Sequence(message, 2);
             m_AuthData.ServiceUid = sequence.OctetString(16);
             m_ServiceInstaller.ChannelId = sequence.OctetString(16);
             sequence.End();
@@ -257,7 +257,7 @@ namespace Softnet.Tracker.ServiceModel
 
         void ProcessMessage_Open(byte[] message)
         {
-            var sequence = ASNDecoder.Create(message, 2);
+            var sequence = ASNDecoder.Sequence(message, 2);
             m_AuthData.ServiceUid = sequence.OctetString(16);
             sequence.End();
 
@@ -281,7 +281,7 @@ namespace Softnet.Tracker.ServiceModel
 
         void ProcessMessage_HashAndKey2(byte[] message)
         {
-            var sequence = ASNDecoder.Create(message, 2);
+            var sequence = ASNDecoder.Sequence(message, 2);
             byte[] receivedPasswordHash = sequence.OctetString(20);
             byte[] securityKey2 = sequence.OctetString(20);
             sequence.End();

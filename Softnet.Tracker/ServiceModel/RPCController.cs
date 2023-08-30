@@ -58,7 +58,7 @@ namespace Softnet.Tracker.ServiceModel
 
         void ProcessMessage_Result(byte[] message)
         {
-            SequenceDecoder asnSequence = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnSequence = ASNDecoder.Sequence(message, 2);
             byte[] requestUid = asnSequence.OctetString(16);
             int userKind = asnSequence.Int32();
             long clientId = asnSequence.Int64();
@@ -81,7 +81,7 @@ namespace Softnet.Tracker.ServiceModel
 
         void ProcessMessage_SoftnetError(byte[] message)
         {
-            SequenceDecoder asnSequence = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnSequence = ASNDecoder.Sequence(message, 2);
             byte[] requestUid = asnSequence.OctetString(16);
             int userKind = asnSequence.Int32();
             long clientId = asnSequence.Int64();
@@ -104,7 +104,7 @@ namespace Softnet.Tracker.ServiceModel
 
         void ProcessMessage_AppError(byte[] message)
         {
-            SequenceDecoder asnSequence = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnSequence = ASNDecoder.Sequence(message, 2);
             byte[] requestUid = asnSequence.OctetString(16);
             int userKind = asnSequence.Int32();
             long clientId = asnSequence.Int64();

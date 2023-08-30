@@ -71,7 +71,7 @@ namespace Softnet.Tracker.ClientModel
 
         void ProcessMessage_Request(byte[] message)
         {
-            SequenceDecoder asnSequence = ASNDecoder.Create(message, 2);
+            SequenceDecoder asnSequence = ASNDecoder.Sequence(message, 2);
             byte[] requestUid = asnSequence.OctetString(16);
             long serviceId = asnSequence.Int64();
             string procedureName = asnSequence.IA5String(1, 256);

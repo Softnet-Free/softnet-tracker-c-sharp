@@ -157,7 +157,7 @@ namespace Softnet.Tracker.Balancer
                 if (messageTag == Constants.Balancer.SERVICE_UID)
                 {
                     string receivedServerName = null;
-                    SequenceDecoder sequence = ASNDecoder.Create(m_Buffer, 2);
+                    SequenceDecoder sequence = ASNDecoder.Sequence(m_Buffer, 2);
                     if (sequence.Exists(1))
                         receivedServerName = sequence.UTF8String();
                     Guid serviceUid = ByteConverter.ToGuid(sequence.OctetString(16));
@@ -194,7 +194,7 @@ namespace Softnet.Tracker.Balancer
                     messageTag == Constants.Balancer.CLIENT_MS_KEY)
                 {
                     string receivedServerName = null;
-                    SequenceDecoder sequence = ASNDecoder.Create(m_Buffer, 2);
+                    SequenceDecoder sequence = ASNDecoder.Sequence(m_Buffer, 2);
                     if (sequence.Exists(1))
                         receivedServerName = sequence.UTF8String();
                     string clientKey = sequence.PrintableString();

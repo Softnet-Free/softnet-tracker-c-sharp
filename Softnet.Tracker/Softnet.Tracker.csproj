@@ -40,9 +40,6 @@
     <Reference Include="Asn1Codec">
       <HintPath>.\Asn1Codec.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>.\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Softnet.ServerKit">
       <HintPath>.\Softnet.ServerKit.dll</HintPath>
     </Reference>
