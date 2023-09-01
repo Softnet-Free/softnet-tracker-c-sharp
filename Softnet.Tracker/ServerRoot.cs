@@ -47,7 +47,7 @@ namespace Softnet.Tracker
                 MgtAgent.Start();
                 AppClock.start();
                 EventCleaner.Start();
-                Softnet.ServerKit.Monitor.Start(60);
+                Monitor.Start(60);
                 NetworkResources.Load();
 
                 TrackerConfig trackerConfig = (TrackerConfig)ConfigurationManager.GetSection("tracker");

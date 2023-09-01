@@ -76,10 +76,8 @@ namespace Softnet.Tracker.Core
                         ClearChannelAcceptor connectionAcceptor = new ClearChannelAcceptor(socket, saea, s_SaeaPool);
                         connectionAcceptor.Exec();
                     }
-                    catch (SocketException e) 
+                    catch (SocketException) 
                     {
-                        if (e.SocketErrorCode != SocketError.Interrupted)
-                            AppLog.WriteLine(e.Message);
                         s_SaeaPool.Add(saea);
                     }
                     catch (ObjectDisposedException) 
