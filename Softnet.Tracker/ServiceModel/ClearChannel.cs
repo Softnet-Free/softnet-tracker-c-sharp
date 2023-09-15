@@ -93,8 +93,6 @@ namespace Softnet.Tracker.ServiceModel
         {
             try
             {
-                //AppLog.WriteLine("service: " + message[0] + "  " + message[1]);
-                
                 m_ExpirationTime = SystemClock.Seconds + 395L;
                 int moduleId = message[0];
                 if (moduleId <= 15 && m_Modules[moduleId] != null)

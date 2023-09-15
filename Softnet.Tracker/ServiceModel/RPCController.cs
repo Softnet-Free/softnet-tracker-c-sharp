@@ -42,7 +42,7 @@ namespace Softnet.Tracker.ServiceModel
             m_Channel.RegisterModule(Constants.Service.RpcController.ModuleId, OnMessageReceived);
         }
 
-        public void SendRequest(byte[] requestUid, string procedureName, int userKind, long userId, long clientId, byte[] arguments)
+        public void SendRequest(byte[] requestUid, string procedureName, int userKind, long userId, long clientId, byte[] arguments, byte[] sessionTag)
         {
             ASNEncoder asnEncoder = new ASNEncoder();
             var asnSequence = asnEncoder.Sequence;
@@ -52,6 +52,8 @@ namespace Softnet.Tracker.ServiceModel
             asnSequence.Int64(userId);
             asnSequence.Int64(clientId);
             asnSequence.OctetString(arguments);
+            if (sessionTag != null)
+                asnSequence.OctetString(1, sessionTag);
             m_Channel.Send(MsgBuilder.Create(Constants.Service.RpcController.ModuleId, Constants.Service.RpcController.REQUEST, asnEncoder));
 
         }
@@ -109,7 +111,9 @@ namespace Softnet.Tracker.ServiceModel
             int userKind = asnSequence.Int32();
             long clientId = asnSequence.Int64();
             int errorCode = asnSequence.Int32();
-            byte[] errorBytes = asnSequence.OctetString(2, 65536);
+            byte[] errorBytes = null;
+            if (asnSequence.Exists(1))
+                errorBytes = asnSequence.OctetString(2, 65536);
             asnSequence.End();
 
             if (userKind != Constants.UserKind.StatelessGuest)

@@ -65,7 +65,8 @@ namespace Softnet.Tracker.ClientModel
             var asnSequence = asnEncoder.Sequence;
             asnSequence.OctetString(requestUid);
             asnSequence.Int32(errorCode);
-            asnSequence.OctetString(errorBytes);
+            if (errorBytes != null)
+                asnSequence.OctetString(1, errorBytes);
             m_Channel.Send(MsgBuilder.Create(Constants.Client.RpcController.ModuleId, Constants.Client.RpcController.APP_ERROR, asnEncoder));
         }
 
@@ -76,12 +77,15 @@ namespace Softnet.Tracker.ClientModel
             long serviceId = asnSequence.Int64();
             string procedureName = asnSequence.IA5String(1, 256);
             byte[] arguments = asnSequence.OctetString(2, 65536);
+            byte[] sessionTag = null;
+            if (asnSequence.Exists(1))
+                sessionTag = asnSequence.OctetString(2, 64);
             asnSequence.End();
 
             Service service = m_Site.FindService(serviceId);
             if (service != null && service.Online)
             {
-                service.RpcController.SendRequest(requestUid, procedureName, m_Client.UserKind, m_Client.UserId, m_Client.Id, arguments);
+                service.RpcController.SendRequest(requestUid, procedureName, m_Client.UserKind, m_Client.UserId, m_Client.Id, arguments, sessionTag);
             }
             else
             {

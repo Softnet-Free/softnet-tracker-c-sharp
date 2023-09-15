@@ -180,6 +180,7 @@ namespace Softnet.Tracker.Core
                 // Input
                 public const byte REQUEST_OK = 1;
                 public const byte REQUEST_ERROR = 2;
+                public const byte CONNECTION_ACCEPTED = 3;
                 public const byte AUTH_KEY = 7;
                 // Output
                 public const byte REQUEST = 1;
@@ -194,6 +195,7 @@ namespace Softnet.Tracker.Core
                 // Input
                 public const byte REQUEST_OK = 1;
                 public const byte REQUEST_ERROR = 2;
+                public const byte CONNECTION_ACCEPTED = 3;
                 public const byte AUTH_KEY = 7;
                 // Output
                 public const byte REQUEST = 1;
@@ -318,6 +320,7 @@ namespace Softnet.Tracker.Core
                 // Output
                 public const byte RZV_DATA = 1;
                 public const byte REQUEST_ERROR = 2;
+                public const byte CONNECTION_ACCEPTED = 3;
                 public const byte AUTH_HASH = 7;
                 public const byte AUTH_ERROR = 8;
             }
@@ -331,6 +334,7 @@ namespace Softnet.Tracker.Core
                 // Output
                 public const byte RZV_DATA = 1;
                 public const byte REQUEST_ERROR = 2;
+                public const byte CONNECTION_ACCEPTED = 3;
                 public const byte AUTH_HASH = 7;
                 public const byte AUTH_ERROR = 8;
             }

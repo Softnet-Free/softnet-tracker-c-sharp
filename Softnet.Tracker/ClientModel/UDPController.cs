@@ -55,18 +55,26 @@ namespace Softnet.Tracker.ClientModel
             m_Channel.Send(EncodeMessage_RequestError(requestUid, errorCode));
         }
 
+        public void SendConnectionAccepted(byte[] requestUid)
+        {
+            m_Channel.Send(EncodeMessage_ConnectionAccepted(requestUid));
+        }
+
         void ProcessMessage_Request(byte[] message)
         {
             SequenceDecoder asnSequence = ASNDecoder.Sequence(message, 2);
             byte[] requestUid = asnSequence.OctetString(16);
             long serviceId = asnSequence.Int64();
             int virtualPort = asnSequence.Int32();
+            byte[] sessionTag = null;
+            if (asnSequence.Exists(1))
+                sessionTag = asnSequence.OctetString(2, 64);
             asnSequence.End();
 
             Service service = m_Site.FindService(serviceId);
             if (service != null && service.Online)
             {
-                service.UdpController.SendRequest(requestUid, virtualPort, m_Client);
+                service.UdpController.SendRequest(requestUid, virtualPort, m_Client, sessionTag);
             }
             else
             {
@@ -113,6 +121,14 @@ namespace Softnet.Tracker.ClientModel
             asnSequence.OctetString(requestUid);
             asnSequence.Int32(errorCode);
             return MsgBuilder.Create(Constants.Client.UdpController.ModuleId, Constants.Client.UdpController.REQUEST_ERROR, asnEncoder);
+        }
+
+        SoftnetMessage EncodeMessage_ConnectionAccepted(byte[] requestUid)
+        {
+            ASNEncoder asnEncoder = new ASNEncoder();
+            var asnSequence = asnEncoder.Sequence;
+            asnSequence.OctetString(requestUid);
+            return MsgBuilder.Create(Constants.Client.UdpController.ModuleId, Constants.Client.UdpController.CONNECTION_ACCEPTED, asnEncoder);
         }
 
         SoftnetMessage EncodeMessage_AuthHash(byte[] requestUid, byte[] authHash, byte[] authKey2)

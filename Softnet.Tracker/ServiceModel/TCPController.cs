@@ -43,7 +43,7 @@ namespace Softnet.Tracker.ServiceModel
             m_Channel.RegisterModule(Constants.Service.TcpController.ModuleId, OnMessageReceived);
         }
 
-        public void SendRequest(byte[] requestUid, int virtualPort, Client client)
+        public void SendRequest(byte[] requestUid, int virtualPort, Client client, byte[] sessionTag)
         {
             ASNEncoder asnEncoder = new ASNEncoder();
             var asnSequence = asnEncoder.Sequence;
@@ -52,10 +52,12 @@ namespace Softnet.Tracker.ServiceModel
             asnSequence.Int32(client.UserKind);
             asnSequence.Int64(client.UserId);
             asnSequence.Int64(client.Id);
+            if (sessionTag != null)
+                asnSequence.OctetString(1, sessionTag);
             m_Channel.Send(MsgBuilder.Create(Constants.Service.TcpController.ModuleId, Constants.Service.TcpController.REQUEST, asnEncoder));
         }
 
-        void SendRzvData(byte[] requestUid, int virtualPort, Client client)
+        void SendRzvData(byte[] requestUid, int virtualPort, Client client, byte[] sessionTag)
         {
             byte[] connectionUid = Guid.NewGuid().ToByteArray();
             ProxyParams ProxyParams = NetworkResources.GetProxy();
@@ -63,9 +65,9 @@ namespace Softnet.Tracker.ServiceModel
             client.TcpController.SendRzvData(requestUid, connectionUid, ProxyParams);
 
             if (m_Channel.GetAddressFamily() == System.Net.Sockets.AddressFamily.InterNetworkV6)
-                m_Channel.Send(EncodeMessage_RzvData(requestUid, connectionUid, ProxyParams.ServerId, ProxyParams.IPv6, virtualPort, client));
+                m_Channel.Send(EncodeMessage_RzvData(requestUid, connectionUid, ProxyParams.ServerId, ProxyParams.IPv6, virtualPort, client, sessionTag));
             else
-                m_Channel.Send(EncodeMessage_RzvData(requestUid, connectionUid, ProxyParams.ServerId, ProxyParams.IPv4, virtualPort, client));
+                m_Channel.Send(EncodeMessage_RzvData(requestUid, connectionUid, ProxyParams.ServerId, ProxyParams.IPv4, virtualPort, client, sessionTag));
         }
 
         void ProcessMessage_RequestOk(byte[] message)
@@ -75,19 +77,22 @@ namespace Softnet.Tracker.ServiceModel
             int virtualPort = asnSequence.Int32();
             int userKind = asnSequence.Int32();
             long clientId = asnSequence.Int64();
+            byte[] sessionTag = null;
+            if (asnSequence.Exists(1))
+                sessionTag = asnSequence.OctetString(2, 64);
             asnSequence.End();
 
             if (userKind != Constants.UserKind.StatelessGuest)
             {
                 Client client = m_Site.FindClient(clientId);
                 if (client != null)
-                    SendRzvData(requestUid, virtualPort, client);
+                    SendRzvData(requestUid, virtualPort, client, sessionTag);
             }
             else
             {
                 Client client = m_Site.FindStatelessClient(clientId);
                 if (client != null)
-                    SendRzvData(requestUid, virtualPort, client);
+                    SendRzvData(requestUid, virtualPort, client, sessionTag);
             }
         }
 
@@ -114,6 +119,28 @@ namespace Softnet.Tracker.ServiceModel
             }
         }
 
+        void ProcessMessage_ConnectionAccepted(byte[] message)
+        {
+            SequenceDecoder asnSequence = ASNDecoder.Sequence(message, 2);
+            byte[] requestUid = asnSequence.OctetString(16);
+            int userKind = asnSequence.Int32();
+            long clientId = asnSequence.Int64();
+            asnSequence.End();
+
+            if (userKind != Constants.UserKind.StatelessGuest)
+            {
+                Client client = m_Site.FindClient(clientId);
+                if (client != null)
+                    client.TcpController.SendConnectionAccepted(requestUid);
+            }
+            else
+            {
+                Client client = m_Site.FindStatelessClient(clientId);
+                if (client != null)
+                    client.TcpController.SendConnectionAccepted(requestUid);
+            }
+        }
+
         void ProcessMessage_AuthKey(byte[] message)
         {
             SequenceDecoder asnSequence = ASNDecoder.Sequence(message, 2);
@@ -136,7 +163,7 @@ namespace Softnet.Tracker.ServiceModel
             }
         }
 
-        SoftnetMessage EncodeMessage_RzvData(byte[] requestUid, byte[] connectionUid, long serverId, IPAddress serverIP, int virtualPort, Client client)
+        SoftnetMessage EncodeMessage_RzvData(byte[] requestUid, byte[] connectionUid, long serverId, IPAddress serverIP, int virtualPort, Client client, byte[] sessionTag)
         {
             ASNEncoder asnEncoder = new ASNEncoder();
             var asnSequence = asnEncoder.Sequence;
@@ -148,6 +175,8 @@ namespace Softnet.Tracker.ServiceModel
             asnSequence.Int32(client.UserKind);
             asnSequence.Int64(client.UserId);
             asnSequence.Int64(client.Id);
+            if (sessionTag != null)
+                asnSequence.OctetString(1, sessionTag);
             return MsgBuilder.Create(Constants.Service.TcpController.ModuleId, Constants.Service.TcpController.RZV_DATA, asnEncoder);
         }
 
@@ -178,13 +207,17 @@ namespace Softnet.Tracker.ServiceModel
             {
                 ProcessMessage_RequestOk(message);
             }
-            else if (messageTag == Constants.Service.TcpController.REQUEST_ERROR)
+            else if (messageTag == Constants.Service.UdpController.CONNECTION_ACCEPTED)
             {
-                ProcessMessage_RequestError(message);
+                ProcessMessage_ConnectionAccepted(message);
             }
             else if (messageTag == Constants.Service.TcpController.AUTH_KEY)
             {
                 ProcessMessage_AuthKey(message);
+            }
+            else if (messageTag == Constants.Service.TcpController.REQUEST_ERROR)
+            {
+                ProcessMessage_RequestError(message);
             }
             else
             {

@@ -269,7 +269,7 @@ namespace Softnet.Tracker.ClientModel
 
                 m_HandshakePhase = HandshakePhase.PHASE_2;
             }
-            else
+            else // clientCategory == Constants.ClientCategory.SingleServiceStateless || clientCategory == Constants.ClientCategory.MultiServiceStateless
             {
                 int errorCode = SoftnetRegistry.Client_GetStatelessClientIData(m_ClientInstaller);
                 if (errorCode != 0)
