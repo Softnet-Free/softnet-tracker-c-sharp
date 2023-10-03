@@ -113,7 +113,7 @@ namespace Softnet.Tracker.ServiceModel
             int errorCode = asnSequence.Int32();
             byte[] errorBytes = null;
             if (asnSequence.Exists(1))
-                errorBytes = asnSequence.OctetString(2, 65536);
+                errorBytes = asnSequence.OctetString(2, 4096);
             asnSequence.End();
 
             if (userKind != Constants.UserKind.StatelessGuest)

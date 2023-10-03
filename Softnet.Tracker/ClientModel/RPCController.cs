@@ -79,7 +79,7 @@ namespace Softnet.Tracker.ClientModel
             byte[] arguments = asnSequence.OctetString(2, 65536);
             byte[] sessionTag = null;
             if (asnSequence.Exists(1))
-                sessionTag = asnSequence.OctetString(2, 64);
+                sessionTag = asnSequence.OctetString(2, 128);
             asnSequence.End();
 
             Service service = m_Site.FindService(serviceId);

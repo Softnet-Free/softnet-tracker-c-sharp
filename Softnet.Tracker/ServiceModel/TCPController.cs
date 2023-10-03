@@ -79,7 +79,7 @@ namespace Softnet.Tracker.ServiceModel
             long clientId = asnSequence.Int64();
             byte[] sessionTag = null;
             if (asnSequence.Exists(1))
-                sessionTag = asnSequence.OctetString(2, 64);
+                sessionTag = asnSequence.OctetString(2, 128);
             asnSequence.End();
 
             if (userKind != Constants.UserKind.StatelessGuest)

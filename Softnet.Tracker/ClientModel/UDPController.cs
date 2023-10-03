@@ -68,7 +68,7 @@ namespace Softnet.Tracker.ClientModel
             int virtualPort = asnSequence.Int32();
             byte[] sessionTag = null;
             if (asnSequence.Exists(1))
-                sessionTag = asnSequence.OctetString(2, 64);
+                sessionTag = asnSequence.OctetString(2, 128);
             asnSequence.End();
 
             Service service = m_Site.FindService(serviceId);
